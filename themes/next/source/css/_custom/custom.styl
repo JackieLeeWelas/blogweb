@@ -1,0 +1,29 @@
+// Custom styles.
+// 主页文章添加阴影效果
+ .post {
+   margin-top: 60px;
+   margin-bottom: 60px;
+   padding: 25px;
+   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+  }
+  /* 去掉图片边框 */
+.posts-expand .post-body img {
+    border: none;
+    padding: 0px;
+}
+.post-gallery .post-gallery-img img {
+    padding: 3px;
+}
+
+// custom.styl
+if hexo-config("custom_css.post_body_a.enable")
+  .post-body
+    a{
+      color: convert(hexo-config("custom_css.post_body_a.normal_color"));
+      border-bottom: none;
+      &:hover {
+        color: convert(hexo-config("custom_css.post_body_a.hover_color"));
+        text-decoration: underline;
+      }
+    }

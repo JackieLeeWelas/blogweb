@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[linux和windows的线程机制的区别]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2F%E7%B3%BB%E7%BB%9F%2Flinux%E5%92%8Cwindows%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%9C%BA%E5%88%B6%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[在Linux内核中，描述一个进程主要是task_struct，一个称为进程描述符的数据结构。这个数据结构很庞大，包含了内核管理一个进程所需的所有信息，描述了一个正在执行的进程，包括进程ID，它打开的文件，进程的地址空间，挂起的信号，进程的状态等等其他信息。 Linux的线程机制和Windows等其他操作系统的很不一样，Linux中没有为线程设置专门的数据结构，也没有专门的线程调度算法，在Linux内核看来，线程就是一个进程，只是一个和其他进程共享资源的特殊进程而已。 在Linux中，创建线程时，和创建普通的进程类似，每个线程都拥有自个的进程描述符task_struct，只是在调用clone()的时候需要传递一些参数标志来指明共享的资源。如图1所示。 而在windows等其他操作系统中，进程拥有一个进程描述符，描述一些地址空间和打开的文件等共享资源，进程中包含指向不同线程的指针，这些线程没有进程描述符，只描述一些少量的独有的资源，因此很轻量。同时这些线程共享进程的资源。如图2所示。]]></content>
+      <categories>
+        <category>原创</category>
+        <category>系统</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>windows</tag>
+        <tag>线程机制</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vmware+Ubuntu14.04+mininet中的host如何访问外网]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2FSDN%2FVmware-Ubuntu14-04-mininet%E4%B8%AD%E7%9A%84host%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%2F</url>
+    <content type="text"><![CDATA[最近需要mininet虚拟出的网络拓扑中的host访问外网，搞了几天，总是出些小问题，今天终于可以不出问题的搞定了。在这里总结一下，以防以后再出问题。 环境：Win7，Vmware workstation 10.0 ，Ubuntu 14.04，mininet 2.2.0 首先把宿主机win7中的VMnet8设置为自动获取IP地址，然后配置Vmware的Ubuntu，配置两块网卡，都是NAT模式。如下图： 点击确定后，点击虚拟网络编辑器，配置VMnet8的子网和掩码以及网关：我这里设置子网为10.0.0.0，子网掩码为255.255.255.0，当然也可以设置为其他的，因为是NAT模式，所以不影响其连外网。这里主要是方便后面设置主机的IP。网关设置为10.0.0.254。这里的DHCP地址范围设置随便取一个合适的范围。OK，上面的配置已经为Ubuntu配置好了网络，可以启动Ubuntu了，查看网卡信息：这个时候，ping一下，则可以ping通，而且只有通过eth0来ping通，eth1 ping不通。分别用：ping -I eth0 baidu.com 和 ping –I eth1 baidu.com测试。为了后面的需要，我们把eth1的IP设置为：0.0.0.0，这样这个闲置的网卡资源就可以被用来桥接到mininet网络中的交换机上，这个后面会介绍怎样桥接。利用命令：sudo ifconfig eth1 0.0.0.0，查看IP地址时eth1已经看不到IP地址了。好了，后面开始重点部分了，先在本地运行floodlight控制器，ip为127.0.0.1，端口为6653。然后编写python脚本创建mininet网络，如下：1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374#!/usr/bin/pythonimport reimport sysfrom mininet.cli import CLIfrom mininet.log import setLogLevel, info, errorfrom mininet.net import Mininetfrom mininet.link import Intffrom mininet.topolib import TreeTopofrom mininet.util import quietRunfrom mininet.node import OVSSwitch, OVSController, Controller, RemoteControllerfrom mininet.topo import Topo class MyTopo( Topo ):# "this topo is used for Scheme_1" def __init__( self ): "Create custom topo." # Initialize topology Topo.__init__( self ) # Add hosts h1 = self.addHost( 'h1' , ip="10.0.0.1/24", mac="00:00:00:00:00:01", defaultRoute="via 10.0.0.254") h2 = self.addHost( 'h2' , ip="10.0.0.2/24", mac="00:00:00:00:00:02", defaultRoute="via 10.0.0.254") h3 = self.addHost( 'h3' , ip="10.0.0.3/24", mac="00:00:00:00:00:03", defaultRoute="via 10.0.0.254") h4 = self.addHost( 'h4' , ip="10.0.0.4/24", mac="00:00:00:00:00:04", defaultRoute="via 10.0.0.254") # Add switches s1 = self.addSwitch( 's1' ) s2 = self.addSwitch( 's2' ) s3 = self.addSwitch( 's3' ) # Add links self.addLink( s1, s2 ) self.addLink( s1, s3 ) self.addLink( s2, h1 ) self.addLink( s2, h2 ) self.addLink( s3, h3 ) self.addLink( s3, h4 )//检查eth1或者其他指定的网卡资源是不是已经被占用def checkIntf( intf ): "Make sure intf exists and is not configured." if ( ' %s:' % intf ) not in quietRun( 'ip link show' ): error( 'Error:', intf, 'does not exist!\n' ) exit( 1 ) ips = re.findall( r'\d+\.\d+\.\d+\.\d+', quietRun( 'ifconfig ' + intf ) ) if ips: error( 'Error:', intf, 'has an IP address,' 'and is probably in use!\n' ) exit( 1 ) if __name__ == '__main__': setLogLevel( 'info' ) # try to get hw intf from the command line; by default, use eth1 intfName = sys.argv[ 1 ] if len( sys.argv ) &gt; 1 else 'eth1' info( '*** Connecting to hw intf: %s' % intfName ) info( '*** Checking', intfName, '\n' ) checkIntf( intfName ) info( '*** Creating network\n' ) net = Mininet( topo=MyTopo(),controller=None) //关键函数，创建mininet网络，指定拓扑和控制器。这里的控制器在后面添加进去 switch = net.switches[ 0 ] //取第一个交换机与eth1桥接 info( '*** Adding hardware interface', intfName, 'to switch', switch.name, '\n' ) _intf = Intf( intfName, node=switch ) //最关键的函数，用作把一个网卡与一个交换机桥接 info( '*** Note: you may need to reconfigure the interfaces for ' 'the Mininet hosts:\n', net.hosts, '\n' ) c0 = RemoteController( 'c0', ip='127.0.0.1', port=6653 ) net.addController(c0) net.start() CLI( net ) net.stop()上面的脚本运行后，在floodlight web UI中可以看到创建了如下拓扑：用上面的脚本设置了虚拟网络中的host的IP地址，MAC地址以及默认网关，然后把 Ubuntu的eth1网卡桥接到s1上，这里实现这个桥接功能主要是由Intf函数起作用，可以参看https://github.com/mininet/mininet/blob/master/examples/hwintf.py：使用 sudo python mytopo.py 运行脚本，出现mininet命令行。在命令行中使用xterm h1打开h1的独立窗口，再ping一下baidu.com。到这里就完成了host访问外网的任务了，而且在Ubuntu和win7中也都可以和host通信（ping通）。最后我根据自己的理解画了个总体的图，仅作为参考，不对的地方请留言指出，谢谢。。。 参考链接： http://techandtrains.com/2013/11/24/mininet-host-talking-to-internet/ http://www.muzixing.com/pages/2013/12/06/yuan-chuang-mininetda-jian-zi-ding-yi-wang-luo-tuo-bu-by-muzi.html]]></content>
+      <categories>
+        <category>原创</category>
+        <category>SDN</category>
+      </categories>
+      <tags>
+        <tag>SDN</tag>
+        <tag>Mininet</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Floodligh Web UI显示的host比实际多且不会被清除的原因及解决方法]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2FSDN%2FFloodligh-Web-UI%E6%98%BE%E7%A4%BA%E7%9A%84host%E6%AF%94%E5%AE%9E%E9%99%85%E5%A4%9A%E4%B8%94%E4%B8%8D%E4%BC%9A%E8%A2%AB%E6%B8%85%E9%99%A4%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[每次启动完floodlight控制器，在http://127.0.0.1:8080/ui/index.html 中打开floodlight的Web UI界面后，发现host总是会比我定义的多，打开拓扑图界面也很混乱。网上查了下，说是因为OVS的一个local port会去发现外部网络的拓扑，只要禁用OVS的这个端口就可以了，有兴趣的可以试试那个方法。下面是我的实验过程及解决方法。 命令：1sudo mn --controller=remote,ip=127.0.0.1,port=6653 --topo=tree,2 如下图： 这样都分不清哪个host是我定义的，交换机倒还好，都很清晰。 所以我在用mininet创建网络拓扑的时候使用了如下命令：1sudo mn --controller=remote,ip=127.0.0.1,port=6653 --mac --topo=tree,2 多加了个mac参数，表示自动设置host的mac，会使我们的host的mac很有规律，如下图： 虽然这样还没解决主机多出来几个的问题，但至少我们能很快分清哪几个使我们的host，这时的host的mac地址，会从00:00:00:00:00:01开始分配。 1. 方法一：最后我解决host多于实际的方法是先启动mininet，再启动floodlight，因为交换机启动时，链路需要协商，如果先启动floodlight，就会把这些数据包也记录下来。所以先启动mininet，等OVS稳定下来，再启动floodlight控制器，这样就不会把OVS协商链路时发现的一些主机也记录进去。 虽然一开始，启动mininet时，不能连接上控制器，但在启动控制器后，mininet会主动与控制器连接。 还有一个问题就是，当退出mininet后，UI上的交换机会立马没了，而主机还在。 然后再用mininet创建网络，UI上的原来的host不变，host在这基础上又会增加几个，每次退出再创建都会多几个host。 上面是我重复三次这样的过程后生成的host，本来只会生成四个host，如今已越来越多。这样很烦，解决的方法是，退出mininet后，就刷新一遍网页，注意不是直接按F5刷新，这样会出错，是再输一次：http://127.0.0.1:8080/ui/index.html 按回车。这时host才会从网页中清除： 后面再创建拓扑的时候就重复上面的过程，先启动mininet，再启动floodlight，每次退出mininet，就刷新一遍网页。 2. 方法二：Google查了下发现了其他的几种方法，试了下面的方法，感觉比之前的好了，但还是有点小问题，可能只是我机子的问题。仅作参考。在floodlight的日志输出里有很多IPv6的信息。所以这个解决方法是禁用IPv6。用命令：sudo vim /etc/sysctl.conf ，然后在最后添加下面三行：123 net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 保存后重启电脑或者运行：sudo sysctl –p上面那种禁用IPv6的方法不一定都适用，使用其他禁用方法也可以。 3. 方法三：上面的方法二有时候不怎么好，后面我又找到了另外一种更彻底的方法：我的OVS版本是 2.0.1： Ubuntu版本是3.13: Google上说是OVS版本和Ubuntu的问题，OVS 2.0.1版本支持Ubuntu 2.6.32 到 3.10，所以我的问题出在OVS版本太低，或者Ubuntu版本过高。解决方法是升级OVS或者降低Ubuntu版本。 运行如下命令：1sudoapt-get install openvswitch-controller openvswitch-switchopenvswitch-datapath-source 把OVS更新到2.0.2： 然后问题就解决了，至少目前是解决了，彻不彻底后面再看。]]></content>
+      <categories>
+        <category>原创</category>
+        <category>SDN</category>
+      </categories>
+      <tags>
+        <tag>SDN</tag>
+        <tag>Floodlight</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[简单配置bind9 的master 和slave]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2F%E7%BD%91%E7%BB%9C%2F%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AEbind9-%E7%9A%84master-%E5%92%8Cslave%2F</url>
+    <content type="text"><![CDATA[系统：两台FreeBSD 10.1部署：一台做master，一台做slave 具体步骤如下： 首先是安装bind9，我是用的ansible远程安装的，暂时还没有把主从两个安装和配置分开，所以一开始在两台FreeBSD上安装的是一样的bind9，包括named.conf和zone文件都是一样，后面再分开配置的。 安装的过程就不赘述了，网上有很多资料，安装完后，就该分别配置两台主机使它们分别作为主从域名服务器了，其实基本配置差不多，比如options里的参数就差不多，只需要改变zone的配置。 在master中：123456zone&quot;XXX.com&quot; IN &#123; type master; file &quot;XXX.com.zone&quot;; allow-update &#123; none; &#125;; allow-transfer &#123; &lt;slave的IP地址&gt;; &#125;; //允许被哪台slave复制数据过去&#125;; 在slave中： 12345zone &quot;XXX.com&quot; IN &#123; type slave; file &quot;slaves/XXX.com.zone&quot;; //自动创建并从master复制内容 masters &#123; &lt;master的IP地址&gt;; &#125;; //指明那台是master，可以有多台，指定多台的时候，multi-master设置为yes&#125;; Zone对应的资源文件只需要在master里编写和修改就可以了，配置好了后，分别重启服务：service named restart ，就可以看到在slave中原本没有资源文件，现在自动从master中同步过来了。当master中的zone设置了allow-transfer，且资源文件里的Serial有改变时，就会通知slave同步masters里对应地址的主域名服务器的数据。]]></content>
+      <categories>
+        <category>原创</category>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>bind9</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何编写Floodlight REST 应用]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2FSDN%2F%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Floodlight-REST-%E5%BA%94%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[可以用任何你喜欢的编程语言编写REST应用 参照步骤1、确定需求，也就是你编写的REST应用需要哪些网络服务和信息。2、检查REST API，看看是否有提供你所需的服务。 如果有，了解其RESTAPI的语法，输入的参数以及可得的选项，这样就可以直接拿来用。 如果没有，也可能是你所需的网络服务和资源信息没有提供REST API，但却可以在floodlight模块中可获得这些信息，只是没通过API暴露出来。这种情况，你可以自己实现REST API来提供你所需的服务。 如果既没有REST API，又在floodlight中找不到，那你可以自己开发floodlight Java模块，并且实现自定义的模块的REST API来提供所需的服务。 3、用所有你需要的REST API方法，设计以及组成你的应用。4、测试你的应用并且反馈给floodlight。 下面通过在floodlight/apps目录下的 python Circuit Pusher应用说明。Curcuit Pusher例子给我们展示了如何创建一个在OpenFlow集群中的两个有IP的主机A和B之间的静态单路径线路。 设计方法1、确定所需的网络服务和信息： 主机A和B的接触点，即用（交换机ID，端口）表示的数据实体，代表A和B的物理位置。 A和B之间接触点的路由，即从A经过哪个交换机和哪个端口到达B的路径 在A和B路由上所有交换机安装流量线路的服务 2、从RESTAPI中查到的可提供的信息： 从/wm/device/的GET参数获取设备的接触点信息，比如IP地址 从/wm/topology/route/////json可以获取A和B接触点之间的路由信息 用/wm/staticflowentrypusher/json的POST方法给指定的交换机安装流表项 3、应用设计： 语言使用Python 使用os.popen方法发送curl 命令来调用REST API的方法(应该还可以使用os.system) 熟悉 /wm/device语法特点，然后在命令返回的结果中解析出A和B接触点的交换机 熟悉 /wm/topology/route的语法，获取交换机和端口用来下发流表项 对于每个交换机和端口对，可以通过/wm/staticflowentrypusher/json下发流表]]></content>
+      <categories>
+        <category>原创</category>
+        <category>SDN</category>
+      </categories>
+      <tags>
+        <tag>SDN</tag>
+        <tag>Floodlight</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Floodlight控制器的安装以及SDN环境的配置]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2FSDN%2FFloodlight%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8ASDN%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[虽然网上有好多这种配置教材，但是在配置的过程中还是都会出各种问题，所以我想基于我自己的过程，记录下我的配置过程便于以后少走弯路，也给别人参考参考一下，下面的配置是我每步成功过后就记下来的，可能以后环境不是一模一样的还是会出各种小问题，这也难免。 首先在win7的VMware上安装Ubuntu14.04，并且在Ubuntu里安装一些常用到的软件1$sudo apt-get install vim,git 然后进入正式安装floodlight的环节： 安装java环境以及eclipse1$sudo apt-get install build-essentialdefault-jdk ant python-dev eclipse 下载floodlight源代码以及编译12345$ git clone git://github.com/floodlight/floodlight.git $ cd floodlight $ ant; $ sudo mkdir /var/lib/floodlight //同步数据的目录，编译完了floodlight会在这里自动生成一个SyncDB/文件夹，这行不是必需的$ sudo chmod /var/lib/floodlight 777 安装mininet1$sudo apt-get install mininet 然后可以简单测试下：1$sudo mn 可以进入mininet的命令行就表示安装成功。 运行floodlight：12$ cd floodlight$ java –jar target/floodlight.jar //控制台就打印出debug信息 运行mininet：1$sudo mn --controller=remote,ip=127.0.0.1,port=6653 这一步是把在mininet中建立的虚拟网络连接到floodlight控制器上。 查看floodlight提供的UI界面在浏览器中输入：http://127.0.0.1:8080/ui/index.html就可以看到floodlight提供的Web UI界面。在webUI中可以查看交换机，主机，流表以及网络拓扑等信息。 配置eclipse上面已经完成了基本的配置工作，但是为了方便后续的开发，我们还需要配置好eclipse，把floodlight的源代码导入到其中。方便以后给控制器添加应用模块以及查看控制器的各个模块的源代码。首先需要在floodlight的目录下执行下面这个命令：1$ant 然后打开eclipse，导入已存在的项目到工作空间，选择根目录为floodlight文件夹。 然后配置eclipse，在eclipse中右键floodlight目录，run as里面的run configurations,新建一个Java Application，name用FloodlightLaunch，project填Floodlight，main填net.floodlightcontroller.core.Main，点应用就OK了。 上面配置好了，就可以运行floodlight控制器了，点工具栏里的三角形按钮或者右键run as a JavaApplication,然后控制台就一直输出调试信息。后面就可以在eclipse中进行模块以及服务的开发。]]></content>
+      <categories>
+        <category>原创</category>
+        <category>SDN</category>
+      </categories>
+      <tags>
+        <tag>SDN</tag>
+        <tag>Floodlight</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Floodlight控制器创建一个模块的简单过程]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2FSDN%2FFloodlight%E6%8E%A7%E5%88%B6%E5%99%A8%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%A8%A1%E5%9D%97%E7%9A%84%E7%AE%80%E5%8D%95%E8%BF%87%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[假设floodlight和eclipse的安装以及配置已经完成，如果还没有，请参考：https://floodlight.atlassian.net/wiki/display/floodlightcontroller/Installation+Guide 很简单的过程，大神就不用看了，主要是记下来方便自己以后用，也给需要的人参考，以下过程全部在eclipse中操作完成 在floodlight项目的src/main/java包上右键新建Java类，填上包路径和Java类名以及继承的类（继承的类一般都包括”IOFMessageListener” 和 “IFloodlightModule”），然后就会自动生成一些需要重写的函数。 为了使我们新建的这个类监听到OpenFlow消息，需要在FloodlightProvider （一个IFloodlightProviderService类）注册我们的类。 我们需要修改getModuleDependencies()函数，用来告诉模块装载器我们依赖它。getModuleDependencies()函数是第一步添加父类后自动生成的函数。 接着编写init方法，init方法在控制器启动的时候就会调用，用来加载依赖模块和初始化数据结构。 然后实现基本的监听器，在startUP方法中注册PACKET_IN消息 为OFMessage监听器加上一个ID，这步在getName()中实现 关键的一步，定义接收到PACKET_IN消息后的行为，在receive()中实现，返回Command.CONTINUE以允许这个消息继续被其他的消息处理模块接收到。 我们还需要为之前我们创建的模块注册，这样floodlight启动的时候就可以加载我们的模块，在这一步，首先我们得告诉加载器我们的模块的存在，这可以在src/main/resources/META-INF/services/net.floodlightcontroller.core.module.IFloodlightModule文件里添加我们的模块的类 最后，我们还必须在floodlight模块配置文件中添加我们创建的模块，这个是在src/main/resources/floodlightdefault.properties文件里的floodlight.modules里添加我们的包和类的全路径。]]></content>
+      <categories>
+        <category>原创</category>
+        <category>SDN</category>
+      </categories>
+      <tags>
+        <tag>SDN</tag>
+        <tag>Floodlight</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[django 外键model的互相读取]]></title>
+    <url>%2F%E5%8E%9F%E5%88%9B%2FPython%2Fdjango-%E5%A4%96%E9%94%AEmodel%E7%9A%84%E4%BA%92%E7%9B%B8%E8%AF%BB%E5%8F%96%2F</url>
+    <content type="text"><![CDATA[先设定一个关系模型如下:1234567891011121314151617181920from django.db import modelsclass Blog(models.Model): name = models.CharField(max_length=100) tagline = models.TextField() def __str__(self): return self.name class Author(models.Model): name = models.CharField(max_length=50) email = models.EmailField() def __str__(self): return self.name class Entry(models.Model): blog = models.ForeignKey(Blog) headline = models.CharField(max_length=255) body_text = models.TextField() authors = models.ManyToManyField(Author) def __str__(self): return self.headline 上面的数据关系很明晰,Entry中有Blog和Author的外键,如果要在Entry中读取blog和author的数据很容易:1234entry = Entry.objects.all()for e in entry: blog = e.blog author = e.authors 要在Blog和Author中读取Entry也可以：12345blog = Blog.objects.all()entry = blog.entry_set.all() author = Author.objects.all()entry = author.entry_set.all() 下面通过entry使blog和author互相读取，比如要知道一个blog的Author只需如下:1234blogs = Blog.objects.all()for blog in blogs: if blog.name== “我们想要查询的博客的name” author = blog. entry_set.authors 要查询一个author的所有blog如下：1234567authors = Author.objects.all()blogs = [] for author in authors: if author.name== “我们想要查询的Author的name” for entry in author.entry_set.all(): blogs.append(entry. blog)]]></content>
+      <categories>
+        <category>原创</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Django</tag>
+      </tags>
+  </entry>
+</search>
