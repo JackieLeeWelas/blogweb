@@ -1,11 +1,13 @@
 ---
 title: 简单配置bind9 的master 和slave
-date: 2016-01-02 20:55:21
-tags: [bind9]
+tags:
+  - bind9
 categories:
-- 原创
-- 网络
+  - 原创
+  - 网络
 copyright: true
+abbrlink: 7ce23410
+date: 2016-01-02 20:55:21
 ---
 **系统**：两台FreeBSD 10.1
 **部署**：一台做master，一台做slave

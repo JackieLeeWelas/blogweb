@@ -1,11 +1,14 @@
 ---
 title: 如何编写Floodlight REST 应用
-date: 2015-12-28 16:41:37
-tags: [SDN,Floodlight]
-categories: 
-- 原创
-- SDN
+tags:
+  - SDN
+  - Floodlight
+categories:
+  - 原创
+  - SDN
 copyright: true
+abbrlink: b9b7a1c4
+date: 2015-12-28 16:41:37
 ---
 可以用任何你喜欢的编程语言编写REST应用
 #### 参照步骤

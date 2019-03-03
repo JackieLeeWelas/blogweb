@@ -1,11 +1,14 @@
 ---
 title: django 外键model的互相读取
-date: 2015-12-15 10:07:27
-tags: [Python, Django]
+tags:
+  - Python
+  - Django
 categories:
-- 原创
-- Python
+  - 原创
+  - Python
 copyright: true
+abbrlink: d507d673
+date: 2015-12-15 10:07:27
 ---
 先设定一个关系模型如下:
 ``` python

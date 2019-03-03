@@ -1,11 +1,14 @@
 ---
 title: Floodlight控制器的安装以及SDN环境的配置
-date: 2015-12-25 22:28:51
-tags: [SDN,Floodlight]
-categories: 
-- 原创
-- SDN
+tags:
+  - SDN
+  - Floodlight
+categories:
+  - 原创
+  - SDN
 copyright: true
+abbrlink: 96090f8a
+date: 2015-12-25 22:28:51
 ---
 虽然网上有好多这种配置教材，但是在配置的过程中还是都会出各种问题，所以我想基于我自己的过程，记录下我的配置过程便于以后少走弯路，也给别人参考参考一下，下面的配置是我每步成功过后就记下来的，可能以后环境不是一模一样的还是会出各种小问题，这也难免。
 

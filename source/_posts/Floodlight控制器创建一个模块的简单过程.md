@@ -1,11 +1,14 @@
 ---
 title: Floodlight控制器创建一个模块的简单过程
-date: 2015-12-24 17:07:18
-tags: [SDN,Floodlight]
-categories: 
-- 原创
-- SDN
+tags:
+  - SDN
+  - Floodlight
+categories:
+  - 原创
+  - SDN
 copyright: true
+abbrlink: 2335eb7f
+date: 2015-12-24 17:07:18
 ---
 假设floodlight和eclipse的安装以及配置已经完成，如果还没有，请参考：
 https://floodlight.atlassian.net/wiki/display/floodlightcontroller/Installation+Guide

@@ -15,8 +15,12 @@ timezone:
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://www.jackielee.cn
 root: /
-permalink: :category/:title/
-permalink_defaults:
+# permalink: :category/:title/
+permalink_defaults: :category/:title/
+permalink: posts/:abbrlink.html
+abbrlink:
+  alg: crc32  # 算法：crc16(default) and crc32
+  rep: hex    # 进制：dec(default) and hex
 
 # Directory
 source_dir: source
@@ -79,7 +83,7 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  message: update
+  message: 
   repo: root@129.28.77.170:/root/blog.git
   branch: master
 
