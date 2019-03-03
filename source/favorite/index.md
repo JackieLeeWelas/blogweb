@@ -1,7 +1,10 @@
 title: 好东西
-comments: false
+comments: true
 date: 2019-02-27 22:50:09
 ---
+<!-- HTML方式: 直接在 Markdown 文件中编写 HTML 来调用 -->
+<blockquote class="blockquote-center">你们如果有好东西，也可以在下面留言告诉我，一起来丰富这个页面</blockquote>
+
 <big>**实用工具**</big>
 1. [json格式化工具](http://www.kjson.com/)
 2. [时间戳转换](http://tools.sharejs.com/unixtime.html)
@@ -17,16 +20,23 @@ date: 2019-02-27 22:50:09
 
 <big>**资源网站**</big>
 - **免费无版权高清图片网站**
-1. [Unsplash](https://unsplash.com/)
-2. [Pexel](https://www.pexels.com/)
-3. [Stocksnap.io](https://stocksnap.io/)
-4. [Gratisography](https://gratisography.com/)
-5. [Pixabay](https://pixabay.com/)
-6. [图标:Flaticon](https://www.flaticon.com/)
-7. [图标:Easyicon](https://www.easyicon.net/)
-8. [SSYER](https://www.ssyer.com/home)
-9. [泼辣有图](http://www.polayoutu.com/collections)
+    1. [Unsplash](https://unsplash.com/)
+    2. [Pexel](https://www.pexels.com/)
+    3. [Stocksnap.io](https://stocksnap.io/)
+    4. [Gratisography](https://gratisography.com/)
+    5. [Pixabay](https://pixabay.com/)
+    6. [图标:Flaticon](https://www.flaticon.com/)
+    7. [图标:Easyicon](https://www.easyicon.net/)
+    8. [SSYER](https://www.ssyer.com/home)
+    9. [泼辣有图](http://www.polayoutu.com/collections)
 - **免费书籍下载网站**
+1. [英文书籍和文章：b-ok.org](https://b-ok.org/)
+2. [亚马逊免费kindle电子书](https://www.amazon.cn/b?ie=UTF8&node=116175071)
+3. [书伴](https://bookfere.com/)
+4. [缤闹Kindle论坛](http://www.binnao.com/)
+5. [Kindleshare电子书搜索引擎](https://sk.kindleshare.cn/)
 - **免费电影下载网站**
-
+1. [蓝光电影网](https://www.1080.cn/)
+2. [电影天堂](https://www.dytt8.net/)
+3. [迅雷仓](https://www.xunleicang.com/)
 <center>持续更新。。。<center>

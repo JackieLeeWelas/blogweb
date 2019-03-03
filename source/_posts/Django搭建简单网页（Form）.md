@@ -27,6 +27,7 @@ date: 2015-10-11 15:58:00
 <input type="submit" value="Vote" />
 </form>
 ```
+<!--more-->
 2. 为了能找到vote的路径，需要在urls.py中设置路径：
 ```py
 #polls/urls.py

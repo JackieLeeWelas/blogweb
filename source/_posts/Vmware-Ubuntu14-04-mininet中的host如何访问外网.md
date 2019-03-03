@@ -15,6 +15,7 @@ date: 2016-01-17 17:32:21
 
 `环境：Win7，Vmware workstation 10.0 ，Ubuntu 14.04，mininet 2.2.0`
 
+<!--more-->
 首先把宿主机win7中的VMnet8设置为自动获取IP地址，然后配置Vmware的Ubuntu，配置两块网卡，都是NAT模式。如下图：
 <center>![图1](5bd388e3/1.png)</center>
 点击确定后，点击虚拟网络编辑器，配置VMnet8的子网和掩码以及网关：

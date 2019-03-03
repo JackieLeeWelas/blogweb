@@ -15,7 +15,7 @@ https://floodlight.atlassian.net/wiki/display/floodlightcontroller/Installation+
 
 很简单的过程，大神就不用看了，主要是记下来方便自己以后用，也给需要的人参考，以下过程全部在eclipse中操作完成
 1. 在floodlight项目的src/main/java包上右键新建Java类，填上包路径和Java类名以及继承的类（继承的类一般都包括"IOFMessageListener" 和 "IFloodlightModule"），然后就会自动生成一些需要重写的函数。
-
+<!--more-->
 2. 为了使我们新建的这个类监听到OpenFlow消息，需要在FloodlightProvider （一个IFloodlightProviderService类）注册我们的类。
 
 3. 我们需要修改getModuleDependencies()函数，用来告诉模块装载器我们依赖它。getModuleDependencies()函数是第一步添加父类后自动生成的函数。

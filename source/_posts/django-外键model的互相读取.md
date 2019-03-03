@@ -34,6 +34,7 @@ class Entry(models.Model):
       return self.headline
 
 ```
+<!--more-->
 上面的数据关系很明晰,Entry中有Blog和Author的外键,如果要在Entry中读取blog和author的数据很容易:
 ``` python
 entry = Entry.objects.all()

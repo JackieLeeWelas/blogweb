@@ -16,6 +16,7 @@ date: 2016-01-09 22:24:24
 ```
 sudo mn --controller=remote,ip=127.0.0.1,port=6653 --topo=tree,2
 ```
+<!--more-->
 **如下图：**
 <center>![图1](7d75af24/1.png)</center>
 <center>![图2](7d75af24/2.png)</center>

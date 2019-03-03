@@ -24,7 +24,7 @@ toc: true
 python manage.py runserver
 ```
     然后在浏览器里输入：http://127.0.0.1:8000/admin/, 在登录界面完成登录就可以进入管理界面了。
-
+<!--more-->
 3. 为了在后台管理界面中显示我们编写的应用polls，需要在polls/admin.py中添加如下代码：
 ``` python
 from django.contrib import admin

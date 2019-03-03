@@ -26,6 +26,7 @@ django-admin startproject mysite
            urls.py
            wsgi.py
     ```
+<!--more-->
 2. 可以去mysite/settings.py中设置数据库，默认为sqlite3
 3. 使用数据库之前，得先在数据库中创建表。用如下命令：
 ```

@@ -18,6 +18,7 @@ from django.http importHttpResponse
 def index(request):
    return HttpResponse("Hello, world. You're atthe polls index.")
 ```
+<!--more-->
 2. 编写自己应用的urls文件，在应用polls下创建urls.py，添加如下代码：
 ```python
 #polls/urls.py

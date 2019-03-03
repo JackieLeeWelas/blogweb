@@ -15,6 +15,7 @@ $ blogweb git:(master) git push
 > remote: Permission to XXX/XXX.git denied to XXX.
 fatal: unable to access 'https://github.com/XXX/XXX.git/': The requested URL returned error: 403
 ```
+<!--more-->
 先试着把https方式换成ssh方式
 ```shell
 $ vim .git/config

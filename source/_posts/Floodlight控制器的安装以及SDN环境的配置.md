@@ -17,6 +17,7 @@ date: 2015-12-25 22:28:51
 $sudo apt-get install vim,git
 ```
 然后进入正式安装floodlight的环节：
+<!--more-->
 ### 安装java环境以及eclipse
 ```
 $sudo apt-get install build-essentialdefault-jdk ant python-dev eclipse
