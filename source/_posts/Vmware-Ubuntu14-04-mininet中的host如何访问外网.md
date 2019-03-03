@@ -13,7 +13,7 @@ date: 2016-01-17 17:32:21
 ---
 最近需要mininet虚拟出的网络拓扑中的host访问外网，搞了几天，总是出些小问题，今天终于可以不出问题的搞定了。在这里总结一下，以防以后再出问题。
 
-`环境：Win7，Vmware workstation 10.0 ，Ubuntu 14.04，mininet 2.2.0`
+    环境：Win7，Vmware workstation 10.0 ，Ubuntu 14.04，mininet 2.2.0
 
 <!--more-->
 首先把宿主机win7中的VMnet8设置为自动获取IP地址，然后配置Vmware的Ubuntu，配置两块网卡，都是NAT模式。如下图：

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/ 
+Allow: /about/
+Allow: /download/ 
+Allow: /favorite/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Sitemap: http://www.jackielee.cn/sitemap.xml
+Sitemap: http://www.jackielee.cn/baidusitemap.xml
