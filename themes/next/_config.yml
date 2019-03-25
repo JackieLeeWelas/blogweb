@@ -129,8 +129,10 @@ scheme: Mist
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
 social:
-  GitHub: https://github.com/JackieLeeWelas || github
+  # GitHub: https://github.com/JackieLeeWelas || github
   E-Mail: http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=1148024090@qq.com || envelope
+  简书: https://www.jianshu.com/u/5ef6dde82508 || 
+  掘金: https://juejin.im/user/5c9725126fb9a0710b726fea/posts || 
   # CSDN: https://blog.csdn.net/JackieLeeWelas
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
@@ -243,8 +245,8 @@ post_wordcount:
 # Wechat Subscriber
 wechat_subscriber:
   enabled: true
-  qcode: /images/wechat-qcode.jpg
-  description: 欢迎您扫一扫上面的二维码，加我微信好友
+  qcode: /images/wechat-qcode.png
+  description: 欢迎扫描上面的二维码，关注我的公众号
 
 # Reward
 reward_comment: 谢谢支持

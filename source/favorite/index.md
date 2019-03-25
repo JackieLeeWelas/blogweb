@@ -17,9 +17,10 @@ date: 2019-02-27 22:50:09
 9. [经纬度坐标拾取器](http://api.map.baidu.com/lbsapi/getpoint/index.html)
 10. [Url编码解码](https://meyerweb.com/eric/tools/dencoder/)
 11. [代码在线运行](https://tool.lu/coderunner/)
+12. [在线画各种图](http://haha98k.com/)
 
 <big>**资源网站**</big>
-- **免费无版权高清图片网站**
+- **无版权高清图片网站**
     1. [Unsplash](https://unsplash.com/)
     2. [Pexel](https://www.pexels.com/)
     3. [Stocksnap.io](https://stocksnap.io/)
@@ -29,14 +30,16 @@ date: 2019-02-27 22:50:09
     7. [图标:Easyicon](https://www.easyicon.net/)
     8. [SSYER](https://www.ssyer.com/home)
     9. [泼辣有图](http://www.polayoutu.com/collections)
-- **免费书籍下载网站**
+- **书籍下载网站**
 1. [英文书籍和文章：b-ok.org](https://b-ok.org/)
 2. [亚马逊免费kindle电子书](https://www.amazon.cn/b?ie=UTF8&node=116175071)
 3. [书伴](https://bookfere.com/)
 4. [缤闹Kindle论坛](http://www.binnao.com/)
 5. [Kindleshare电子书搜索引擎](https://sk.kindleshare.cn/)
-- **免费电影下载网站**
+- **电影下载网站**
 1. [蓝光电影网](https://www.1080.cn/)
 2. [电影天堂](https://www.dytt8.net/)
 3. [迅雷仓](https://www.xunleicang.com/)
+- **优质软件下载网站**
+1. [msdn我告诉你](https://msdn.itellyou.cn/)
 <center>持续更新。。。<center>
